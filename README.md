@@ -6,7 +6,7 @@ Práctica individual de Docker Compose con cinco servicios: **frontend, backend,
 | --- | --- |
 | Asignatura | Infraestructura de Servicios |
 | Estudiante | Neftalí Odín García Ramírez |
-| Número de control | 121291 |
+| Número de control | 22121291 |
 | Dominio asignado | Último dígito 1: agenda de actividades (entidad `Actividad`) |
 | Grupo | A |
 | Mejora individual | Fecha límite con detección de actividades vencidas y próximas a vencer |
