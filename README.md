@@ -8,7 +8,9 @@ Práctica individual de Docker Compose con cinco servicios: **frontend, backend,
 | Estudiante | Neftalí Odín García Ramírez |
 | Número de control | 121291 |
 | Dominio asignado | Último dígito 1: agenda de actividades (entidad `Actividad`) |
+| Grupo | A |
 | Mejora individual | Fecha límite con detección de actividades vencidas y próximas a vencer |
+| Repositorio | https://github.com/AegisOdin/practica-docker-compose |
 
 ## Descripción
 
@@ -78,8 +80,8 @@ proyecto-garcia-neftali/
 ## Ejecución desde cero
 
 ```bash
-git clone <url-del-repositorio>
-cd proyecto-garcia-neftali
+git clone https://github.com/AegisOdin/practica-docker-compose.git
+cd practica-docker-compose
 
 cp .env.example .env        # después edita .env y cambia las tres contraseñas
 
