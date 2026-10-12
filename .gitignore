@@ -1,0 +1,12 @@
+# Secretos locales
+.env
+.env.*
+!.env.example
+
+# Sistema y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.log

@@ -1,0 +1,116 @@
+name: agenda-actividades
+
+services:
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-8081}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - app_network
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    expose:
+      - "80"
+    environment:
+      TZ: ${TZ:-America/Mexico_City}
+      DB_HOST: db
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:?Define DB_NAME en .env}
+      DB_USER: ${DB_USER:?Define DB_USER en .env}
+      DB_PASSWORD: ${DB_PASSWORD:?Define DB_PASSWORD en .env}
+      REDIS_HOST: redis
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?Define REDIS_PASSWORD en .env}
+      CACHE_TTL: ${CACHE_TTL:-60}
+      SMTP_HOST: mailpit
+      SMTP_PORT: ${SMTP_PORT:-1025}
+      MAIL_FROM: ${MAIL_FROM:-agenda@practica.local}
+      MAIL_TO: ${MAIL_TO:-estudiante@practica.local}
+      DIAS_AVISO: ${DIAS_AVISO:-3}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - app_network
+
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    command:
+      - --port=${DB_PORT:-5432}
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    expose:
+      - "${DB_PORT:-5432}"
+    environment:
+      TZ: ${TZ:-America/Mexico_City}
+      MARIADB_DATABASE: ${DB_NAME:?Define DB_NAME en .env}
+      MARIADB_USER: ${DB_USER:?Define DB_USER en .env}
+      MARIADB_PASSWORD: ${DB_PASSWORD:?Define DB_PASSWORD en .env}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Define DB_ROOT_PASSWORD en .env}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - app_network
+
+  redis:
+    image: redis:7.4-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:?Define REDIS_PASSWORD en .env}"]
+    expose:
+      - "6379"
+    environment:
+      # Permite usar redis-cli dentro del contenedor sin escribir la contraseña.
+      REDISCLI_AUTH: ${REDIS_PASSWORD}
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep -q PONG"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - app_network
+
+  mailpit:
+    image: axllent/mailpit:v1.21
+    restart: unless-stopped
+    ports:
+      - "${MAILPIT_PORT:-8025}:8025"
+    expose:
+      - "1025"
+    environment:
+      TZ: ${TZ:-America/Mexico_City}
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  mariadb_data:
+  redis_data:

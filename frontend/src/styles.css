@@ -1,0 +1,504 @@
+:root {
+    --papel: #e6ecea;
+    --hoja: #ffffff;
+    --tinta: #12313a;
+    --tinta-suave: #4c666d;
+    --linea: #c3d0cc;
+    --vencida: #bf3327;
+    --proxima: #d99a00;
+    --en-tiempo: #2f6f8f;
+    --completada: #2c7a59;
+
+    --titulos: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+    --texto: "Atkinson Hyperlegible", "Segoe UI", sans-serif;
+
+    --radio: 6px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--papel);
+    color: var(--tinta);
+    font-family: var(--texto);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+h1,
+h4,
+h2,
+h3 {
+    font-family: var(--titulos);
+    line-height: 1.1;
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+a {
+    color: inherit;
+}
+
+:focus-visible {
+    outline: 3px solid var(--en-tiempo);
+    outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------ cabecera */
+
+.cabecera {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 1.75rem;
+}
+
+.cabecera h1 {
+    font-size: clamp(2.25rem, 6vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+}
+
+.cabecera__resumen {
+    margin-top: 0.75rem;
+    font-size: 1.125rem;
+    color: var(--tinta-suave);
+    max-width: 34rem;
+}
+
+.cabecera__hoy {
+    font-family: var(--titulos);
+    font-weight: 500;
+    font-size: 1.125rem;
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* ------------------------------------------------------------- tablero */
+
+.tablero {
+    display: grid;
+    grid-template-columns: minmax(16rem, 21rem) minmax(0, 1fr);
+    gap: 2.5rem;
+    align-items: start;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0 1.5rem 3rem;
+}
+
+.alta {
+    position: sticky;
+    top: 1.5rem;
+    background: var(--tinta);
+    color: #f1f6f4;
+    border-radius: var(--radio);
+    padding: 1.5rem;
+}
+
+.alta h2,
+.agenda__barra h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.alta form {
+    margin-top: 1.25rem;
+}
+
+.alta__nota {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: #b9cbc8;
+}
+
+/* -------------------------------------------------------------- campos */
+
+.campo {
+    margin-bottom: 1rem;
+}
+
+.campo label {
+    display: block;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    margin-bottom: 0.3rem;
+}
+
+.opcional {
+    font-weight: 400;
+    opacity: 0.75;
+}
+
+.campo input,
+.campo textarea {
+    width: 100%;
+    padding: 0.6rem 0.7rem;
+    font: inherit;
+    color: var(--tinta);
+    background: var(--hoja);
+    border: 2px solid transparent;
+    border-radius: var(--radio);
+}
+
+dialog .campo input,
+dialog .campo textarea {
+    border-color: var(--linea);
+}
+
+.campo textarea {
+    resize: vertical;
+}
+
+.campo input[aria-invalid="true"],
+.campo textarea[aria-invalid="true"] {
+    border-color: var(--vencida);
+}
+
+.campo__error {
+    font-size: 0.875rem;
+    font-weight: 700;
+    margin-top: 0.3rem;
+    color: var(--vencida);
+}
+
+.alta .campo__error {
+    color: #ffb4a8;
+}
+
+.campo__error:empty {
+    display: none;
+}
+
+/* ------------------------------------------------------------- botones */
+
+.boton {
+    font: inherit;
+    font-weight: 700;
+    padding: 0.6rem 1rem;
+    border: 2px solid transparent;
+    border-radius: var(--radio);
+    cursor: pointer;
+}
+
+.boton:disabled {
+    opacity: 0.55;
+    cursor: progress;
+}
+
+.boton--principal {
+    background: var(--proxima);
+    color: #1c1400;
+}
+
+.alta .boton--principal {
+    width: 100%;
+}
+
+.boton--principal:hover:not(:disabled) {
+    background: #eeb21f;
+}
+
+.boton--ligero {
+    background: transparent;
+    color: var(--tinta);
+    border-color: var(--linea);
+}
+
+.boton--ligero:hover:not(:disabled) {
+    border-color: var(--tinta);
+}
+
+.boton--peligro {
+    background: var(--vencida);
+    color: #fff;
+}
+
+.boton--peligro:hover:not(:disabled) {
+    background: #a3271c;
+}
+
+.boton--chico {
+    padding: 0.3rem 0.65rem;
+    font-size: 0.875rem;
+}
+
+/* -------------------------------------------------------------- agenda */
+
+.agenda__barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--tinta);
+}
+
+.grupo {
+    margin-top: 1.75rem;
+}
+
+.grupo__titulo {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.grupo__cuenta {
+    font-family: var(--texto);
+    font-weight: 400;
+    font-size: 0.9375rem;
+    color: var(--tinta-suave);
+}
+
+.grupo ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.625rem;
+}
+
+/* Cada actividad lleva una hoja de calendario cuyo color indica el vencimiento */
+.actividad {
+    --color: var(--en-tiempo);
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    gap: 1rem;
+    background: var(--hoja);
+    border-radius: var(--radio);
+    padding: 0.875rem 1rem 0.875rem 0.875rem;
+}
+
+.actividad[data-vencimiento="vencida"] {
+    --color: var(--vencida);
+}
+
+.actividad[data-vencimiento="proxima"] {
+    --color: var(--proxima);
+}
+
+.actividad[data-vencimiento="completada"] {
+    --color: var(--completada);
+}
+
+.hoja-fecha {
+    align-self: start;
+    text-align: center;
+    border: 2px solid var(--color);
+    border-radius: var(--radio);
+    overflow: hidden;
+    font-family: var(--titulos);
+}
+
+.hoja-fecha__mes {
+    display: block;
+    background: var(--color);
+    color: #fff;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    padding: 0.1rem 0;
+}
+
+.actividad[data-vencimiento="proxima"] .hoja-fecha__mes {
+    color: #1c1400;
+}
+
+.hoja-fecha__dia {
+    display: block;
+    font-size: 1.875rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.hoja-fecha__semana {
+    display: block;
+    font-family: var(--texto);
+    font-size: 0.75rem;
+    color: var(--tinta-suave);
+    padding-bottom: 0.2rem;
+}
+
+.actividad__titulo {
+    font-size: 1.125rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.actividad[data-vencimiento="completada"] .actividad__titulo {
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+    color: var(--tinta-suave);
+}
+
+.actividad__descripcion {
+    color: var(--tinta-suave);
+    overflow-wrap: anywhere;
+    max-width: 62ch;
+}
+
+.actividad__plazo {
+    margin-top: 0.25rem;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    color: var(--color);
+}
+
+.actividad[data-vencimiento="proxima"] .actividad__plazo {
+    color: #8a6200;
+}
+
+.actividad__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.actividad__acciones select {
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--tinta);
+    background: var(--papel);
+    border: 2px solid transparent;
+    border-radius: var(--radio);
+    padding: 0.3rem 0.5rem;
+    cursor: pointer;
+}
+
+.solo-lectores {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.vacio {
+    margin-top: 1.75rem;
+    padding: 2rem 1.5rem;
+    background: var(--hoja);
+    border-radius: var(--radio);
+}
+
+.vacio strong {
+    display: block;
+    font-family: var(--titulos);
+    font-size: 1.25rem;
+}
+
+.lectura {
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    color: var(--tinta-suave);
+}
+
+/* ------------------------------------------------------- pie y avisos */
+
+.pie {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 1.25rem 1.5rem 2.5rem;
+    font-size: 0.875rem;
+    color: var(--tinta-suave);
+    border-top: 1px solid var(--linea);
+}
+
+dialog {
+    width: min(30rem, calc(100vw - 2rem));
+    border: none;
+    border-radius: var(--radio);
+    padding: 1.5rem;
+    color: var(--tinta);
+    background: var(--hoja);
+}
+
+dialog::backdrop {
+    background: rgb(18 49 58 / 0.55);
+}
+
+dialog h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.dialogo__acciones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+}
+
+.aviso {
+    position: fixed;
+    left: 50%;
+    bottom: 1.5rem;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: calc(100vw - 2rem);
+    padding: 0.75rem 1.1rem;
+    border-radius: var(--radio);
+    background: var(--tinta);
+    color: #fff;
+    font-weight: 700;
+    border-left: 6px solid var(--completada);
+    animation: aparecer 180ms ease-out;
+}
+
+.aviso[data-tipo="error"] {
+    border-left-color: var(--vencida);
+    background: #4a1510;
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 0.5rem);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .aviso {
+        animation: none;
+    }
+}
+
+@media (max-width: 52rem) {
+    .cabecera {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding-top: 1.75rem;
+    }
+
+    .cabecera__hoy {
+        text-align: left;
+        order: -1;
+    }
+
+    .tablero {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 2rem;
+        padding: 0 1rem 2.5rem;
+    }
+
+    .alta {
+        position: static;
+    }
+}

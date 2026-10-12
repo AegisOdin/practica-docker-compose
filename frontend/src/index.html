@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agenda de actividades</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="cabecera">
+        <div class="cabecera__texto">
+            <h1>Agenda de actividades</h1>
+            <p class="cabecera__resumen" id="resumen">Cargando tu agenda…</p>
+        </div>
+        <p class="cabecera__hoy" id="hoy" aria-label="Fecha de hoy"></p>
+    </header>
+
+    <main class="tablero">
+        <section class="alta" aria-labelledby="titulo-alta">
+            <h2 id="titulo-alta">Nueva actividad</h2>
+            <form id="form-alta" novalidate>
+                <div class="campo">
+                    <label for="alta-titulo">Título</label>
+                    <input id="alta-titulo" name="titulo" type="text" maxlength="120" autocomplete="off" required>
+                    <p class="campo__error" data-error="titulo"></p>
+                </div>
+                <div class="campo">
+                    <label for="alta-descripcion">Descripción <span class="opcional">(opcional)</span></label>
+                    <textarea id="alta-descripcion" name="descripcion" rows="3" maxlength="500"></textarea>
+                    <p class="campo__error" data-error="descripcion"></p>
+                </div>
+                <div class="campo">
+                    <label for="alta-fecha">Fecha límite</label>
+                    <input id="alta-fecha" name="fecha_limite" type="date" required>
+                    <p class="campo__error" data-error="fecha_limite"></p>
+                </div>
+                <button class="boton boton--principal" type="submit">Agregar actividad</button>
+                <p class="alta__nota">Al agregarla se envía un correo de aviso. Puedes verlo en
+                    <a href="http://localhost:8025" id="enlace-mailpit" target="_blank" rel="noopener">Mailpit</a>.</p>
+            </form>
+        </section>
+
+        <section class="agenda" aria-labelledby="titulo-agenda">
+            <div class="agenda__barra">
+                <h2 id="titulo-agenda">Tus actividades</h2>
+                <button class="boton boton--ligero" type="button" id="recargar">Actualizar lista</button>
+            </div>
+            <div id="lista" aria-live="polite"></div>
+            <p class="lectura" id="lectura"></p>
+        </section>
+    </main>
+
+    <footer class="pie">
+        <p>Práctica de Docker Compose con cinco servicios. Neftalí Odín García Ramírez, número de control 121291.</p>
+    </footer>
+
+    <dialog id="dialogo-editar" aria-labelledby="titulo-editar">
+        <form id="form-editar" novalidate>
+            <h2 id="titulo-editar">Editar actividad</h2>
+            <div class="campo">
+                <label for="editar-titulo">Título</label>
+                <input id="editar-titulo" name="titulo" type="text" maxlength="120" autocomplete="off" required>
+                <p class="campo__error" data-error="titulo"></p>
+            </div>
+            <div class="campo">
+                <label for="editar-descripcion">Descripción <span class="opcional">(opcional)</span></label>
+                <textarea id="editar-descripcion" name="descripcion" rows="3" maxlength="500"></textarea>
+                <p class="campo__error" data-error="descripcion"></p>
+            </div>
+            <div class="campo">
+                <label for="editar-fecha">Fecha límite</label>
+                <input id="editar-fecha" name="fecha_limite" type="date" required>
+                <p class="campo__error" data-error="fecha_limite"></p>
+            </div>
+            <div class="dialogo__acciones">
+                <button class="boton boton--ligero" type="button" data-cerrar>Cancelar</button>
+                <button class="boton boton--principal" type="submit">Guardar cambios</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="dialogo-eliminar" aria-labelledby="titulo-eliminar">
+        <h2 id="titulo-eliminar">¿Eliminar esta actividad?</h2>
+        <p id="texto-eliminar"></p>
+        <div class="dialogo__acciones">
+            <button class="boton boton--ligero" type="button" data-cerrar>Conservar</button>
+            <button class="boton boton--peligro" type="button" id="confirmar-eliminar">Eliminar actividad</button>
+        </div>
+    </dialog>
+
+    <div class="aviso" id="aviso" role="status" aria-live="polite" hidden></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
